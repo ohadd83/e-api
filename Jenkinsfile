@@ -99,8 +99,32 @@ pipeline {
                         } 
                     }
                 }
+		stage("deploy on stg") {
+			steps {
+                           echo "deploy app on stg"
+                           sh '''
+			   docker stop ${APP_NAME}-test || true
+			   docker rm -rf ${APP_NAME}-test || true 
+			   docker pull ${IAMGE_NAME}:${IMAGE_TAG}
+			   docker run -d --name ${APP_NAME}-stg -p 8001:8000 ${IMAGE_NAME}:${IMAGE_TAG}  
+			   '''
+			}
+		}
+		stage("test stg") {
+			steps {
+				echo "wait for app to start"
+				sleep 5
+				echo "stg health-check"
+				sh '''
+				curl -f http://localhost:8001/health
+				curl -f http://localhost:8001/products/1
+				curl -f  -X POST  -H "Content-Type: application/json" -d '{"product_id":1,"quantity":3}' http://localhost:8001/orders/
+				'''
+			}
+		}
 
 
+			
 
 
 
