@@ -103,9 +103,9 @@ pipeline {
 			steps {
                            echo "deploy app on stg"
                            sh '''
-			   docker stop ${APP_NAME}-test || true
-			   docker rm -rf ${APP_NAME}-test || true 
-			   docker pull ${IAMGE_NAME}:${IMAGE_TAG}
+			   docker stop ${APP_NAME}-stg || true
+			   docker rm -f ${APP_NAME}-stg || true 
+			   docker pull ${IMAGE_NAME}:${IMAGE_TAG}
 			   docker run -d --name ${APP_NAME}-stg -p 8001:8000 ${IMAGE_NAME}:${IMAGE_TAG}  
 			   '''
 			}
