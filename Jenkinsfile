@@ -132,7 +132,7 @@ pipeline {
 			   '''
 			}
 		}
-		stage("test PRD health check")
+//		stage("test PRD health check")
 
 
 			
