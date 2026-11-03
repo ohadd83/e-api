@@ -122,6 +122,16 @@ pipeline {
 				'''
 			}
 		}
+		stage("deploy on PRD")  {
+			steps {
+			   echo "deploy app on prd"
+			   sh '''
+			   docker stop ${APP_NAME} || true
+			   docker rm -f ${APP_NAME}  || true
+			   docker run -d --name ${APP_NAME} -p ${APP_PORT}:${APP_PORT} ${IMAGE_NAME}:${IMAGE_TAG}   
+			   '''
+			}
+		}
 
 
 			
