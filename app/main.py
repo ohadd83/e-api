@@ -25,3 +25,12 @@ def health():
     return {
         "status": "healthy"
     }
+
+def calculate_discount(price, discount):
+    if price < 0:
+        raise ValueError("Invalid price")
+
+    if not 0 <= discount <= 100:
+        raise ValueError("Invalid discount")
+
+    return price - (price * discount / 100)
