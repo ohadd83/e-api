@@ -3,7 +3,7 @@ from fastapi import FastAPI
 from app.routes import orders, products
 
 app = FastAPI(
-    title="E-Commerce API prd",
+    title="E-Commerce API prd new version",
     version="1.0.0"
 )
 
