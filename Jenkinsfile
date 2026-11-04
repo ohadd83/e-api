@@ -124,15 +124,28 @@ pipeline {
 		}
 		stage("deploy on PRD")  {
 			steps {
-			   echo "deploy app on prd aaa"
+			   echo "deploy app on prd "
 			   sh '''
 			   docker stop ${APP_NAME} || true
 			   docker rm -f ${APP_NAME}  || true
 			   docker run -d --name ${APP_NAME} -p ${APP_PORT}:${APP_PORT} ${IMAGE_NAME}:${IMAGE_TAG}   
 			   '''
+                           
 			}
 		}
-//		stage("test PRD health check")
+		stage("test PRD health check")  {
+			steps {
+                           echo "wait for app to start"
+			   sleep 5
+			   echo "run tests on PRD"
+			   sh '''
+			   curl -f http://localhost:8000/health
+			   curl -f http://localhost:8000/products/1
+                           curl -f  -X POST  -H "Content-Type: application/json" -d '{"product_id":1,"quantity":3}' http://localhost:8000/orders/
+			   '''
+			}
+
+		}
 
 
 			
