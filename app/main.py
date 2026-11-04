@@ -15,7 +15,7 @@ app.include_router(orders.router)
 @app.get("/")
 def root():
     return {
-        "application": "E-Commerce API",
+        "application": "E-Commerce API new version test2",
         "version": "1.0.0"
     }
 
