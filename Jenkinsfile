@@ -124,7 +124,7 @@ pipeline {
 		}
 		stage("deploy on PRD")  {
 			steps {
-			   echo "deploy app on prd"
+			   echo "deploy app on prd aaaaa"
 			   sh '''
 			   docker stop ${APP_NAME} || true
 			   docker rm -f ${APP_NAME}  || true
