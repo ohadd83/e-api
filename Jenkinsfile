@@ -163,7 +163,7 @@ pipeline {
 						fi 
 					fi 
 				fi
-				else echo "wait for app to start"
+			        echo "wait for app to start"
 				sleep 3
 			   done 
 			   echo "application failed to start"
