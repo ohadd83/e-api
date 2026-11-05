@@ -147,9 +147,10 @@ pipeline {
 
 //		}
 		stage("test PRD healthcheck")  {
-			echo "wait for app to start"
-			sleep 5
 			steps {
+			echo "wait for app to start"
+			sleep 3
+			
 			sh '''
 			   for i in {1..3}; do
 				if curl -f http://localhost:8000/health ; then 
