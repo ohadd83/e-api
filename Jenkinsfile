@@ -133,18 +133,42 @@ pipeline {
                            
 			}
 		}
-		stage("test PRD health check")  {
-			steps {
-                           echo "wait for app to start"
-			   sleep 5
-			   echo "run tests on PRD"
-			   sh '''
-			   curl -f http://localhost:8000/health
-			   curl -f http://localhost:8000/products/1
-                           curl -f  -X POST  -H "Content-Type: application/json" -d '{"product_id":1,"quantity":3}' http://localhost:8000/orders/
-			   '''
-			}
+//		stage("test PRD health check")  {
+//			steps {
+  //                         echo "wait for app to start"
+//			   sleep 5
+//			   echo "run tests on PRD"
+//			   sh '''
+//			   curl -f http://localhost:8000/health
+//			   curl -f http://localhost:8000/products/1
+  //                         curl -f  -X POST  -H "Content-Type: application/json" -d '{"product_id":1,"quantity":3}' http://localhost:8000/orders/
+//			   '''
+//			}
 
+//		}
+		stage("test PRD healthcheck")  {
+			echo "wait for app to start"
+			sleep 5
+			steps {
+			sh '''
+			   for i in {1..3}; do
+				if curl -f http://localhost:8000/health ; then 
+					echo "health check path successfuly"
+					if curl -fsS http://localhost:8000/products/1 ; then 
+					echo "get product success"
+						if curl -f  -X POST  -H "Content-Type: application/json" -d '{"product_id":1,"quantity":3}' http://localhost:8000/orders/ ; then
+							echo "app tests finished successfuly"
+							exit 0
+						fi 
+					fi 
+				fi
+				else echo "wait for app to start"
+				sleep 3
+			   done 
+			   echo "application failed to start"
+			   exit 1
+			'''
+			}
 		}
 
 
